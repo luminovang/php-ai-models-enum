@@ -8,9 +8,13 @@ The enum version extends the [class version](https://github.com/luminovang/php-a
 
 ## Installation
 
+Install via composer.
+
 ```php
 composer install luminovang/php-ai-models-enum
 ```
+
+> No additional dependencies beyond PHP 8.1.
 
 [`Luminova\AI\Model` (const version)](https://github.com/luminovang/php-ai-models) — PHP constant final class.
 
@@ -101,8 +105,6 @@ Choose the **enum** when you want PHP to enforce correctness at the type level; 
 ```php
 use Luminova\AI\Model;
 ```
-
-No additional dependencies beyond PHP 8.1.
 
 ---
 
@@ -803,7 +805,7 @@ Use the **alias** in development for the newest behavior; use the **snapshot** i
 | Filter by capability | `Model::forCapability('vision')` → `string[]` | `Model::forCapability('vision')` → `Model[]` |
 | `match` exhaustiveness | ❌ | ✅ |
 | Use in PHP attributes | ❌ | ✅ |
-| PHP requirement | 8.1+ (reflection only) | 8.1+ |
+| PHP requirement | 8.0+ (reflection only) | 8.1+ |
 
 Both classes expose identical client data and capability tags. The **enum** is recommended for all new code.
 
