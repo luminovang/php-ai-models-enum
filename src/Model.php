@@ -12,16 +12,16 @@ namespace Luminova\AI;
 
 /**
  * String-backed enum cataloguing every AI model identifier supported by
- * Luminova's built-in providers (OpenAI, Anthropic, Ollama).
+ * Luminova's built-in clients (OpenAI, Anthropic, Ollama).
  *
  * Each case name is a readable PHP identifier; its `->value` is the exact
- * string the provider API expects in the `model` field.
+ * string the client API expects in the `model` field.
  *
  * **Getting the API string**
  * ```php
  * use Luminova\AI\Model;
  *
- * // Pass ->value wherever the provider expects a plain model string.
+ * // Pass ->value wherever the client expects a plain model string.
  * $ai->message('Hello!', ['model' => Model::GPT_4_1_MINI->value]);
  * $ai->message('Hello!', ['model' => Model::CLAUDE_SONNET_4_6->value]);
  * $ai->message('Hello!', ['model' => Model::LLAVA->value]);
@@ -45,7 +45,7 @@ namespace Luminova\AI;
  *
  * **Instance helpers (called on a case)**
  * ```php
- * Model::O3->provider();      // 'openai'
+ * Model::O3->client();      // 'openai'
  * Model::O3->isReasoning();   // true
  * Model::O3->isVision();      // true
  * Model::O3->capabilities();  // ['chat', 'vision', 'reasoning', 'coding']
@@ -77,7 +77,7 @@ enum Model: string
     /** GPT-5 Mini — faster, more affordable GPT-5 variant. Strong balance of capability and price. */
     case GPT_5_MINI = 'gpt-5-mini';
 
-    /** GPT-5 Nano — smallest GPT-5 variant, optimised for latency and cost. */
+    /** GPT-5 Nano — smallest GPT-5 variant, optimized for latency and cost. */
     case GPT_5_NANO = 'gpt-5-nano';
 
     /**
@@ -88,7 +88,7 @@ enum Model: string
 
     /**
      * GPT-4.1 Mini — efficient mid-tier model; also supports fine-tuning.
-     * Default chat model for the Luminova OpenAI provider.
+     * Default chat model for the Luminova OpenAI client.
      */
     case GPT_4_1_MINI = 'gpt-4.1-mini';
 
@@ -148,7 +148,7 @@ enum Model: string
 
     /**
      * GPT Image 1 — first-generation unified image model (generation, inpainting, editing).
-     * Default image model in the Luminova OpenAI provider. Requires access approval.
+     * Default image model in the Luminova OpenAI client. Requires access approval.
      */
     case GPT_IMAGE_1 = 'gpt-image-1';
 
@@ -160,12 +160,12 @@ enum Model: string
 
     /**
      * GPT-4o Mini TTS — expressive, controllable speech synthesis.
-     * Default TTS model in the Luminova OpenAI provider.
+     * Default TTS model in the Luminova OpenAI client.
      * Voices: `alloy`, `echo`, `fable`, `onyx`, `nova`, `shimmer`.
      */
     case GPT_4O_MINI_TTS = 'gpt-4o-mini-tts';
 
-    /** TTS-1 — first-generation TTS; optimised for real-time use. Six preset voices. */
+    /** TTS-1 — first-generation TTS; optimized for real-time use. Six preset voices. */
     case TTS_1 = 'tts-1';
 
     /** TTS-1 HD — higher-quality TTS; more natural intonation and smoothness. */
@@ -179,7 +179,7 @@ enum Model: string
 
     /**
      * Whisper-1 — general-purpose speech recognition across 99+ languages.
-     * Default transcription model in the Luminova OpenAI provider.
+     * Default transcription model in the Luminova OpenAI client.
      */
     case WHISPER_1 = 'whisper-1';
 
@@ -191,7 +191,7 @@ enum Model: string
 
     /**
      * Text Embedding 3 Small — efficient third-generation model. 1536-dimensional output.
-     * Default embedding model in the Luminova OpenAI provider.
+     * Default embedding model in the Luminova OpenAI client.
      */
     case TEXT_EMBEDDING_3_SMALL = 'text-embedding-3-small';
 
@@ -214,7 +214,7 @@ enum Model: string
     /**
      * Claude Sonnet 4.6 — latest Sonnet (Feb 2026); same price as Sonnet 4.5.
      * Preferred over previous Opus in coding evaluations by 59% of developers.
-     * Default Claude model in the Luminova Anthropic provider.
+     * Default Claude model in the Luminova Anthropic client.
      */
     case CLAUDE_SONNET_4_6 = 'claude-sonnet-4-6';
 
@@ -275,7 +275,7 @@ enum Model: string
     /** Llama 3.1 (70 B) — large-scale variant; requires multi-GPU or high-VRAM hardware. */
     case LLAMA_3_1_70B = 'llama3.1:70b';
 
-    /** Llama 3.2 — compact Meta model (1 B / 3 B); optimised for edge hardware. */
+    /** Llama 3.2 — compact Meta model (1 B / 3 B); optimized for edge hardware. */
     case LLAMA_3_2 = 'llama3.2';
 
     /** Llama 3.2 (1 B) — ultra-compact for edge and embedded use. */
@@ -429,7 +429,7 @@ enum Model: string
 
     /**
      * LLaVA — canonical first-choice multimodal vision-language model for Ollama.
-     * Default vision model in the Luminova Ollama provider (`vision()`).
+     * Default vision model in the Luminova Ollama client (`vision()`).
      */
     case LLAVA = 'llava';
 
@@ -460,7 +460,7 @@ enum Model: string
     /**
      * Nomic Embed Text — high-performing open embedding model.
      * 8 K token context; strong MTEB benchmark scores.
-     * Default embedding model in the Luminova Ollama provider.
+     * Default embedding model in the Luminova Ollama client.
      */
     case NOMIC_EMBED_TEXT = 'nomic-embed-text';
 
@@ -477,12 +477,12 @@ enum Model: string
     case ALL_MINILM = 'all-minilm';
 
     /**
-     * Maps every case value to its provider short-name.
-     * Provider keys match those registered in `AI::$providers`.
+     * Maps every case value to its client short-name.
+     * Provider keys match those registered in `AI::$clients`.
      *
-     * @var array<string,string>
+     * @var array<string,string> CLIENT_MAP
      */
-    private const PROVIDER_MAP = [
+    private const CLIENT_MAP = [
         // — OpenAI —
         'gpt-5'                        => 'openai',
         'gpt-5-mini'                   => 'openai',
@@ -679,23 +679,23 @@ enum Model: string
     ];
 
     /**
-     * Return the provider short-name for this model.
+     * Return the client short-name for this model.
      *
-     * Matches the key registered in `AI::$providers`:
+     * Matches the key registered in `AI::$clients`:
      * `'openai'`, `'anthropic'`, or `'ollama'`.
      *
      * @return string
      *
      * @example
      * ```php
-     * Model::GPT_4_1_MINI->provider();      // 'openai'
-     * Model::CLAUDE_SONNET_4_6->provider(); // 'anthropic'
-     * Model::LLAVA->provider();             // 'ollama'
+     * Model::GPT_4_1_MINI->client();      // 'openai'
+     * Model::CLAUDE_SONNET_4_6->client(); // 'anthropic'
+     * Model::LLAVA->client();             // 'ollama'
      * ```
      */
-    public function provider(): string
+    public function client(): string
     {
-        return self::PROVIDER_MAP[$this->value];
+        return self::CLIENT_MAP[$this->value];
     }
 
     /**
@@ -815,7 +815,7 @@ enum Model: string
     }
 
     /**
-     * Whether this model supports fine-tuning via the provider API.
+     * Whether this model supports fine-tuning via the client API.
      *
      * @return bool
      *
@@ -831,29 +831,29 @@ enum Model: string
     }
 
     /**
-     * Return all cases that belong to a specific provider.
+     * Return all cases that belong to a specific client.
      *
-     * @param string $provider Provider short-name: `'openai'`, `'anthropic'`, or `'ollama'`.
+     * @param string $client Provider short-name: `'openai'`, `'anthropic'`, or `'ollama'`.
      *
      * @return self[]
      *
      * @example
      * ```php
-     * $cases = Model::forProvider('openai');
+     * $cases = Model::forClient('openai');
      * // [Model::GPT_5, Model::GPT_4_1_MINI, Model::O3, ...]
      *
-     * foreach (Model::forProvider('ollama') as $model) {
+     * foreach (Model::forClient('ollama') as $model) {
      *     echo $model->name . ' = ' . $model->value . PHP_EOL;
      * }
      * ```
      */
-    public static function forProvider(string $provider): array
+    public static function forClient(string $client): array
     {
-        $provider = strtolower($provider);
+        $client = strtolower($client);
 
         return array_values(array_filter(
             self::cases(),
-            fn(self $case): bool => (self::PROVIDER_MAP[$case->value] ?? null) === $provider
+            fn(self $case): bool => (self::CLIENT_MAP[$case->value] ?? null) === $client
         ));
     }
 
@@ -907,7 +907,7 @@ enum Model: string
      *
      * // Use in a match with a resolved case:
      * $model = Model::resolve($config['model']) ?? Model::CLAUDE_SONNET_4_6;
-     * $endpoint = match($model->provider()) {
+     * $endpoint = match($model->client()) {
      *     'openai'    => $openaiClient,
      *     'anthropic' => $claudeClient,
      *     'ollama'    => $ollamaClient,
