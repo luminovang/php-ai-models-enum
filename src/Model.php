@@ -17,54 +17,6 @@ namespace Luminova\AI;
  * Each case name is a readable PHP identifier; its `->value` is the exact
  * string the client API expects in the `model` field.
  *
- * **Getting the API string**
- * ```php
- * use Luminova\AI\Model;
- *
- * // Pass ->value wherever the client expects a plain model string.
- * $ai->message('Hello!', ['model' => Model::GPT_4_1_MINI->value]);
- * $ai->message('Hello!', ['model' => Model::CLAUDE_SONNET_4_6->value]);
- * $ai->message('Hello!', ['model' => Model::LLAVA->value]);
- * ```
- *
- * **Resolving from an API string (built-in enum methods)**
- * ```php
- * // Throws \ValueError when the string is not a known case.
- * $model = Model::from('gpt-4.1-mini');
- *
- * // Returns null when the string is not known — safe for user input.
- * $model = Model::tryFrom($userInput) ?? Model::GPT_4_1_MINI;
- * ```
- *
- * **Iterating all cases**
- * ```php
- * foreach (Model::cases() as $model) {
- *     echo $model->name . ' => ' . $model->value . PHP_EOL;
- * }
- * ```
- *
- * **Instance helpers (called on a case)**
- * ```php
- * Model::O3->client();      // 'openai'
- * Model::O3->isReasoning();   // true
- * Model::O3->isVision();      // true
- * Model::O3->capabilities();  // ['chat', 'vision', 'reasoning', 'coding']
- * ```
- *
- * **Static helpers (called on the enum)**
- * ```php
- * Model::forProvider('openai');          // [Model::GPT_5, Model::GPT_4_1_MINI, ...]
- * Model::forCapability('vision');        // [Model::GPT_4_1, Model::LLAVA, ...]
- * Model::resolve('gpt-4.1-mini');        // Model::GPT_4_1_MINI  (or null)
- * ```
- *
- * **Naming convention**
- * - Hyphens and dots → underscores: `gpt-4.1-mini` → `GPT_4_1_MINI`.
- * - Size-tag suffixes: `llama3.1:8b` → `LLAMA_3_1_8B`.
- * - Versioned snapshots have both a clean alias (`CLAUDE_OPUS_4_5`) and a
- *   pinned snapshot (`CLAUDE_OPUS_4_5_SNAP`) so you can choose between
- *   always-latest and guaranteed reproducibility.
- *
  * @see https://platform.openai.com/docs/models
  * @see https://docs.anthropic.com/en/docs/about-claude/models
  * @see https://ollama.com/library
@@ -110,7 +62,7 @@ enum Model: string
     /** GPT-4o Mini Audio — lower-cost audio variant of GPT-4o Mini. */
     case GPT_4O_MINI_AUDIO = 'gpt-4o-mini-audio-preview';
 
-    /** GPT-4o Realtime — optimised for low-latency real-time speech and text. */
+    /** GPT-4o Realtime — optimized for low-latency real-time speech and text. */
     case GPT_4O_REALTIME = 'gpt-4o-realtime-preview';
 
     /** GPT-4o Mini Realtime — low-latency, lower-cost realtime variant. */
@@ -433,7 +385,7 @@ enum Model: string
      */
     case LLAVA = 'llava';
 
-    /** LLaVA (13 B) — stronger vision understanding at 13 B parameters. */
+    /** stronger vision understanding at 13 B parameters. */
     case LLAVA_13B = 'llava:13b';
 
     /** LLaVA (34 B) — highest-quality LLaVA variant; requires 24+ GB VRAM. */
@@ -751,7 +703,7 @@ enum Model: string
     /**
      * Whether this is a reasoning / chain-of-thought model.
      *
-     * @return bool
+     * @return bool Return true if is reasoning model.
      *
      * @example
      * ```php
