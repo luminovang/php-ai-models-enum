@@ -57,7 +57,7 @@
     },
     "suggest": {
         "luminovang/php-ai-models": "Use for PHP < 8.1 or when native enums are not required."
-    }
+    },
     "scripts": {
         "test": "vendor/bin/phpunit --testdox",
         "test:coverage": "vendor/bin/phpunit --coverage-html build/coverage",
